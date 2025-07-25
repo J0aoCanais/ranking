@@ -1,0 +1,85 @@
+@use "../../public/assets/fonts/fonts.scss" as *;
+@use "./variables" as *;
+@use "./mixins" as *;
+
+@forward "./_variables.scss";
+@forward "./_mixins.scss";
+@forward "./_animations.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  width: 100dvw;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "FS Me", 'Inter', sans-serif;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+
+  /*&:not(:disabled):active {
+    box-shadow: $button-box-shadow;
+  }*/
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:focus,
+a:active {
+  color: inherit;
+  outline: none;
+}
+
+input {
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+label:has(+ input:required)::after {
+  content: ' *';
+}
+
+label:has(+ div input:required)::after {
+  content: ' *';
+}
+
+//tem que ser imorttant para sobrepor o css da biblioteca (shit biblioteca)
+.swiper-pagination-bullet{
+  background-color: #B8B8B8 !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: rgba(#387eff, 0.7) !important;
+  filter: hue-rotate(0deg) saturate(2) brightness(1.7) !important;
+}

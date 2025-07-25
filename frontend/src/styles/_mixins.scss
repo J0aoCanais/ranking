@@ -1,0 +1,120 @@
+@use "sass:string";
+
+@use './variables' as *;
+
+//MEDIA QUERIES
+$tablet: 768px;
+$large: 1024px;
+$desktop: 1280px;
+
+@mixin phone {
+  @media only screen and (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media only screen and (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media only screen and (min-width: $large) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (min-width: $desktop) {
+    @content;
+  }
+}
+
+//TEXTO
+@mixin text($size: 1rem, $line-height: 1.5rem, $weight: $font-regular, $color: $color-black) {
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+  color: $color;
+}
+
+// FLEXBOX
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-center-column {
+  @include flex-center;
+  flex-direction: column;
+}
+
+@mixin flex-center-vert {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-center-horiz {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin flex($direction: row, $justify: flex-start, $align: center, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+}
+
+//GRID
+@mixin grid($rows: null, $columns: null, $row-gap: null, $column-gap: null, $gap: null) {
+  @if ($columns) {
+    display: grid;
+
+    @if ($gap) {
+      gap: $gap;
+    } @else {
+      row-gap: $row-gap;
+      column-gap: $column-gap;
+    }
+
+    grid-template-rows: $rows;
+    grid-template-columns: string.unquote($columns);
+  } @else {
+    display: grid;
+
+    @if ($gap) {
+      gap: $gap;
+    } @else {
+      row-gap: $row-gap;
+      column-gap: $column-gap;
+    }
+
+    grid-template-rows: $rows;
+  }
+}
+
+//POSIÇÂO
+@mixin position(
+  $position: absolute,
+  $top: null,
+  $right: null,
+  $bottom: null,
+  $left: null,
+  $z-index: initial
+) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+  z-index: $z-index;
+}

@@ -1,0 +1,5 @@
+from users.models import User, Level
+import datetime
+level_1, created = Level.objects.get_or_create(level=1, defaults={'points_needed': 100})
+user = User.objects.create_superuser(username="admin", email="admin@admin.com", password="admin", birthdate=datetime.date(1990, 1, 1), gender="Masculino", level=level_1)
+exit()

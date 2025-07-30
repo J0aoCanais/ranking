@@ -1,0 +1,61 @@
+@use '../../styles/main.scss' as *;
+
+.showPersonContainer {
+    @include flex(column, center, center);
+    position: relative;
+    z-index: 10;
+}
+
+.alcoolLevel {
+  @include text('texto', 2.5rem, null, $font-regular);
+  margin-bottom: -20px;
+  text-align: center;
+  z-index: 30;
+}
+
+.photoContainer {
+  width: 190px;
+  height: 190px;
+
+  border-radius: 50%;
+  border: 3px solid #000;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.namesContainer {
+  @include text('texto', 3rem, null, $font-regular);
+  text-align: center;
+  margin-top: -10px;
+
+  
+  &.vertical {
+    @include text('texto', 2.7rem, null, $font-regular);
+    @include flex-column;
+  }
+  
+  &.horizontal {
+    @include flex(row, center, center, 10px);
+  }
+}
+
+.primeiroNome,
+.segundoNome {
+  line-height: 1;
+}
+
+.numero {
+    @include text('texto', 10rem, 0, null, $font-regular);
+    @include position(absolute, $bottom:70px, $left: 0);
+    margin-left: -60px;
+    text-shadow: 
+        -2px -2px 0 rgba(0, 0, 0, 0.8),
+        2px -2px 0 rgba(0, 0, 0, 0.8),
+        -2px 2px 0 rgba(0, 0, 0, 0.8),
+        2px 2px 0 rgba(0, 0, 0, 0.8);
+}

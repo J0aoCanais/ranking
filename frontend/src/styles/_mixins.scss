@@ -32,11 +32,22 @@ $desktop: 1280px;
 }
 
 //TEXTO
-@mixin text($size: 1rem, $line-height: 1.5rem, $weight: $font-regular, $color: $color-black) {
+@mixin text($font-family: 'texto', $size: 1rem, $line-height: 1.5rem, $weight: $font-regular, $color: $color-black) {
+  font-family: $font-family;
   font-size: $size;
   line-height: $line-height;
   font-weight: $weight;
   color: $color;
+  
+  // Aplicar text-shadow automaticamente quando usar a fonte 'texto'
+  @if $font-family == 'texto' {
+    color: black;
+    text-shadow: 
+      -1px -1px 0 rgba(255, 255, 255, 0.8),
+      1px -1px 0 rgba(255, 255, 255, 0.8),
+      -1px 1px 0 rgba(255, 255, 255, 0.8),
+      1px 1px 0 rgba(255, 255, 255, 0.8);
+  }
 }
 
 // FLEXBOX

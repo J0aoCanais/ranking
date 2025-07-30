@@ -16,7 +16,7 @@ def create_person(request):
     """
     Cria uma nova pessoa
     """
-    serializer = PersonSerializer(data=request.data)
+    serializer = PersonSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         person = serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -26,10 +26,10 @@ def create_person(request):
 @api_view(['GET'])
 def get_persons_by_alcohol(request):
     """
-    Obtém todas as pessoas ordenadas por nível de álcool (crescente)
+    Obtém todas as pessoas ordenadas por nível de álcool (decrescente para ranking)
     """
-    persons = Person.objects.all().order_by('alcool')
-    serializer = PersonSerializer(persons, many=True)
+    persons = Person.objects.all().order_by('-alcool')
+    serializer = PersonSerializer(persons, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -40,7 +40,7 @@ def get_latest_person(request):
     """
     try:
         latest_person = Person.objects.latest('data_adicionado')
-        serializer = PersonSerializer(latest_person)
+        serializer = PersonSerializer(latest_person, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Person.DoesNotExist:
         return Response(

@@ -1,0 +1,133 @@
+@use '../../styles/main.scss' as *;
+
+
+.landingContainer {
+    background-image: url("../../assets/background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+
+    .title {
+        @include flex-center-column;
+
+        .main {
+            padding-top: 5rem;
+            @include text('titulo',110px, 1rem, $font-regular, white)
+        }
+
+        .secondary {
+            padding-top: 2.5rem;
+            @include text('titulo', 80px, 3.8rem, $font-regular, #af4c0f);
+            width: 1050px;
+            text-align: center;
+        }
+
+    }
+
+    .image1{
+        @include position(absolute, 15px,$left: 30px);
+        img{
+            width: 24rem;
+        }
+    }
+
+    .image2{
+        @include position(absolute, 270px, 15px);
+        img{
+            width: 25rem;
+        }
+    }
+
+    .image3{
+        @include position(absolute, 15px, 30px);
+        img{
+            width: 19rem;
+        }
+    }
+
+    .rankingContainer {
+        @include flex-center;
+        flex-direction: column;
+        @include position(absolute, 57%,$left: 50%);
+
+        width: 1090px;
+        height: 700px;
+        border-radius: 50px;
+        background-color: rgba(255, 255, 255, 0.4);
+        padding: 20px;
+        transform: translate(-50%, -50%);
+
+        .showPersonContainer {
+            position: relative;
+            width: 100%;
+            height: 330px;
+            margin-top: -40px;
+            
+            // Primeiro lugar - centro, em cima
+            > :nth-child(1) {
+                position: absolute;
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%) scale(0.8);
+            }
+            
+            // Segundo lugar - esquerda, meio
+            > :nth-child(2) {
+                position: absolute;
+                top: 20px;
+                left: 5%;
+                transform: scale(0.7);
+            }
+            
+            // Terceiro lugar - direita, mais abaixo
+            > :nth-child(3) {
+                position: absolute;
+                top: 50px;
+                right: 5%;
+                transform: scale(0.6);
+            }
+        }
+
+        .barContainer{
+            width: 100%;
+            @include flex-column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .loading {
+            color: white;
+            font-size: 1.5rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    }
+    
+    .rankingContainer {
+        @include flex-center;
+        flex-direction: column;
+        @include position(absolute, 57%,$left: 50%);
+
+        width: 1090px;
+        height: 700px;
+        border-radius: 50px;
+        background-color: rgba(255, 255, 255, 0.4);
+        padding: 20px;
+        transform: translate(-50%, -50%);
+
+        .transform{
+            transform: scale(2.6);
+            padding-bottom: 30px;
+        }
+
+        .instructionsContainer{
+            transform: scale(0.5);
+
+        }
+    }
+    
+}
+
+
+

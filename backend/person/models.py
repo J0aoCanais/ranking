@@ -11,8 +11,3 @@ class Person(models.Model):
 
     def __str__(self):
         return f"{self.primeiro_nome} {self.ultimo_nome}"
-
-    class Meta:
-        verbose_name = "Pessoa"
-        verbose_name_plural = "Pessoas"
-

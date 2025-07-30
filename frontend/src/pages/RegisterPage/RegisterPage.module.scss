@@ -1,0 +1,198 @@
+@use '../../styles/main.scss' as *;
+
+.registerContainer {
+  background-color: #ff6b6bde; // Vermelho claro
+  min-height: 100vh;
+  padding: 20px;
+  @include flex(column, center, flex-start);
+  
+  // Mobile-first design
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+}
+
+.formContainer {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+
+}
+
+.title {
+  @include text('titulo', 2.5rem, null, $font-regular, white);
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 25px;
+  }
+}
+
+.form {
+  @include flex(column, stretch, flex-start, 20px);
+}
+
+.inputGroup {
+    
+    width: 100%;
+  @include flex(column, stretch, flex-start, 8px);
+}
+
+.label {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    
+    &:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.8);
+        background-color: white;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    }
+    
+    &::placeholder {
+        color: #666;
+    }
+    
+    @media (max-width: 768px) {
+        padding: 12px;
+        font-size: 16px; // Prevents zoom on iOS
+    }
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.photoButton {
+  padding: 15px 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+.photoPreview {
+  margin-top: 10px;
+  @include flex(row, center, center);
+}
+
+.previewImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  
+  @media (max-width: 768px) {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.submitButton {
+  padding: 18px 25px;
+  background: linear-gradient(135deg, #ff4757, #ff3742);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+  
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ff3742, #ff2733);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    background: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+  }
+}
+
+.message {
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 15px;
+  
+  &.success {
+    background-color: rgba(46, 204, 113, 0.2);
+    border: 2px solid rgba(46, 204, 113, 0.5);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  &.error {
+    background-color: rgba(231, 76, 60, 0.2);
+    border: 2px solid rgba(231, 76, 60, 0.5);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}

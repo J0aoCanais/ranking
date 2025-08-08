@@ -32,11 +32,11 @@ const LandingPage = () => {
     if (!foto) return "https://via.placeholder.com/190";
     if (foto.startsWith('http')) return foto;
     
-    const BASE_URL = 'https://japcanais.pythonanywhere.com';
-    const baseUrl = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
-    const photoPath = foto.startsWith('/') ? foto : `/${foto}`;
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://japcanais.pythonanywhere.com';
+    const baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
+    const photoPath = foto.startsWith('/') ? foto.substring(1) : foto;
     
-    return `${baseUrl}/media${photoPath}`;
+    return `${baseUrl}/media/${photoPath}`;
   };
 
   useEffect(() => {

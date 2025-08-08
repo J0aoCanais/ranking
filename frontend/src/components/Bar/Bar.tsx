@@ -23,11 +23,10 @@ const Bar: React.FC<BarProps> = ({
   };
 
   const getImageSrc = () => {
-    if (!foto || foto === null || foto === 'null' || foto === '') {
+    if (!foto || foto === null || foto === 'null') {
       return "https://via.placeholder.com/190";
     }
-    
-    return foto; // O backend já envia URLs completas
+    return foto;
   };
 
   return (

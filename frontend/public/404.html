@@ -2,19 +2,22 @@
 <html lang="pt">
 <head>
     <meta charset="utf-8">
-    <title>Festas VDL</title>
-    <script type="text/javascript">
-        // Redirecionar para hash router
-        var currentPath = window.location.pathname;
-        
-        if (currentPath === '/register') {
-            window.location.replace(window.location.origin + '/#/register');
-        } else {
-            window.location.replace(window.location.origin + '/#/');
-        }
+    <title>VDL - Venda da Luísa</title>
+    <script>
+        // Redirect all 404 pages to the main app
+        // This allows React Router to handle the routing
+        var segmentCount = 0;
+        var l = window.location;
+        l.replace(
+            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/' +
+            l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+            (l.search ? '&p=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+            l.hash
+        );
     </script>
 </head>
 <body>
-    <p>Redirecionando...</p>
+    <div>Redirecting...</div>
 </body>
 </html>

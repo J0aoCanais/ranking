@@ -21,10 +21,5 @@ export default defineConfig({
         api: 'modern-compiler'
       }
     }
-  },
-  // Adiciona fallback para SPA
-  server: {
-    port: 3000,
-    open: true
   }
 })

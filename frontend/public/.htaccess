@@ -1,14 +1,8 @@
 RewriteEngine On
 
 # Handle client-side routing for React Router
-# First, handle API requests and media files
-RewriteCond %{REQUEST_URI} ^/(api|admin|media)/
-RewriteRule ^(.*)$ https://japcanais.pythonanywhere.com/$1 [P,L]
-
-# Then handle all other requests for React Router
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/(api|admin|media)/
 RewriteRule . /index.html [L]
 
 # Security headers

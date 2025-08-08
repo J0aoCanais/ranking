@@ -27,16 +27,13 @@ const LandingPage = () => {
   const cycleTimeoutRef = useRef<number | null>(null);
   const instructionsTimeoutRef = useRef<number | null>(null);
 
-  // Função para construir URL da foto
+  // Função para construir URL da foto  
   const getPhotoUrl = (foto?: string) => {
-    if (!foto) return "https://via.placeholder.com/190";
-    if (foto.startsWith('http')) return foto;
+    if (!foto || foto === null || foto === 'null' || foto === '') {
+      return "https://via.placeholder.com/190";
+    }
     
-    const BASE_URL = 'https://japcanais.pythonanywhere.com';
-    const baseUrl = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
-    const photoPath = foto.startsWith('/') ? foto : `/${foto}`;
-    
-    return `${baseUrl}/media${photoPath}`;
+    return foto; // O backend já envia URLs completas
   };
 
   useEffect(() => {

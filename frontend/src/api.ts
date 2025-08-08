@@ -55,6 +55,31 @@ export const request = async (
             return { success: true, data: mockData.persons };
         }
         
+        if (endpoint === '/person/ranking/' && method.toLowerCase() === 'get') {
+            // Retorna pessoas ordenadas por álcool (descendente)
+            const sortedPersons = [...mockData.persons].sort((a, b) => b.alcool - a.alcool);
+            return { success: true, data: sortedPersons };
+        }
+        
+        if (endpoint === '/person/latest/' && method.toLowerCase() === 'get') {
+            // Retorna a pessoa mais recente (simulado)
+            const latestPerson = mockData.persons[mockData.persons.length - 1];
+            return { success: true, data: latestPerson || null };
+        }
+        
+        if (endpoint === '/person/create/' && method.toLowerCase() === 'post') {
+            // Simula criação de uma nova pessoa
+            const newPerson = {
+                id: mockData.persons.length + 1,
+                primeiro_nome: body.primeiro_nome,
+                ultimo_nome: body.ultimo_nome,
+                alcool: body.alcool,
+                foto: null // Em modo mock, não salvamos fotos
+            };
+            mockData.persons.push(newPerson);
+            return { success: true, data: newPerson };
+        }
+        
         if (endpoint.startsWith('/person/') && method.toLowerCase() === 'get') {
             const id = parseInt(endpoint.split('/')[2]);
             const person = mockData.persons.find(p => p.id === id);

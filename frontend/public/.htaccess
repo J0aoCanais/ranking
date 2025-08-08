@@ -3,9 +3,7 @@ RewriteEngine On
 # Handle client-side routing for React Router
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/api/
-RewriteCond %{REQUEST_URI} !^/admin/
-RewriteRule ^(.*)$ /index.html [L,QSA]
+RewriteRule . /index.html [L]
 
 # Security headers
 Header always set X-Content-Type-Options nosniff

@@ -32,7 +32,7 @@ const LandingPage = () => {
     if (!foto) return "https://via.placeholder.com/190";
     if (foto.startsWith('http')) return foto;
     
-    const BASE_URL = 'http://127.0.0.1:8000';
+    const BASE_URL = 'https://japcanais.pythonanywhere.com';
     const baseUrl = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
     const photoPath = foto.startsWith('/') ? foto : `/${foto}`;
     

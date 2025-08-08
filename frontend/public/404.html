@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <title>Festas VDL</title>
+    <script type="text/javascript">
+        // Redirecionar para a página principal com hash routing
+        var currentPath = window.location.pathname;
+        
+        // Se é a página register, redirecionar para /#/register
+        if (currentPath === '/register') {
+            window.location.replace(window.location.origin + '/#/register');
+        } else {
+            // Para outras páginas, redirecionar para a principal
+            window.location.replace(window.location.origin + '/#/');
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecionando...</p>
+</body>
+</html>

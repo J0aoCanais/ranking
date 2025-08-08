@@ -25,21 +25,10 @@ const ShowPerson: React.FC<ShowPersonProps> = ({
   };
 
   const getImageSrc = () => {
-    if (!foto || foto === null || foto === 'null' || foto === '') {
+    if (!foto || foto === null || foto === 'null') {
       return "https://via.placeholder.com/190";
     }
-    
-    // Se já é uma URL completa, usar diretamente
-    if (foto.startsWith('http')) {
-      return foto;
-    }
-    
-    // Construir URL completa para PythonAnywhere
-    const BASE_URL = 'https://japcanais.pythonanywhere.com';
-    const baseUrl = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
-    const photoPath = foto.startsWith('/') ? foto : `/${foto}`;
-    
-    return `${baseUrl}/media${photoPath}`;
+    return foto;
   };
 
   return (

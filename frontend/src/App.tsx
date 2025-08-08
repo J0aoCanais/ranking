@@ -5,7 +5,7 @@ import RegisterPage from './pages/RegisterPage'
 function App() {
 
   return (
-      <Router basename="/">
+      <Router basename="/ranking">
           <Routes > 
             
             <Route path="/" element={<LandingPage/>} />

@@ -5,7 +5,7 @@ import RegisterPage from './pages/RegisterPage'
 function App() {
 
   return (
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <Router basename="/">
           <Routes > 
             
             <Route path="/" element={<LandingPage/>} />

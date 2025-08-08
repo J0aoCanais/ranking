@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-jp2k8@m9x$wv#4h6n*z!8@5b&k3q7r9t2w6y$e8f*p1m@3x5c9v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # Temporariamente para debug
 
-ALLOWED_HOSTS = ['japcanais2.pythonanywhere.com']
+ALLOWED_HOSTS = ['japcanais.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -78,18 +78,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Temporariamente usando SQLite para funcionar rapidamente
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'japcanais2$ranking_db',  # Nome da base de dados no PythonAnywhere
-        'USER': 'japcanais2',  # Teu username
-        'PASSWORD': 'YOUR_DB_PASSWORD',  # Substitui pela password da tua base de dados
-        'HOST': 'japcanais2.mysql.pythonanywhere-services.com',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Configuração MySQL para depois (quando criares a base de dados)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'japcanais$ranking_db',
+#         'USER': 'japcanais',
+#         'PASSWORD': 'TUA_PASSWORD_AQUI',
+#         'HOST': 'japcanais.mysql.pythonanywhere-services.com',
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#         },
+#     }
+# }
 
 
 # Password validation
@@ -126,12 +135,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static_root/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/home/japcanais/ranking/backend/staticfiles'
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = '/home/japcanais/ranking/backend/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

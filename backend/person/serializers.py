@@ -3,7 +3,8 @@ from .models import *
 
 
 class PersonSerializer(serializers.ModelSerializer):
-    foto = serializers.ImageField(required=False)
+    # Make foto writable to accept uploads; DRF will handle File/Image from request.FILES
+    foto = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = Person
@@ -12,16 +13,13 @@ class PersonSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         """
-        Personaliza a representação da foto para retornar a URL completa
+        Ensure "foto" is returned as an absolute URL when possible, while keeping the field writable.
         """
-        data = super().to_representation(instance)
-        if instance.foto:
+        rep = super().to_representation(instance)
+        foto = rep.get('foto')
+        if foto:
             request = self.context.get('request')
-            if request:
-                data['foto'] = request.build_absolute_uri(instance.foto.url)
-            else:
-                data['foto'] = instance.foto.url
-        else:
-            data['foto'] = None
-        return data
+            if request and not str(foto).startswith('http'):
+                rep['foto'] = request.build_absolute_uri(foto)
+        return rep
 

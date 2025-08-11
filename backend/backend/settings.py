@@ -140,13 +140,10 @@ STATIC_ROOT = '/home/japcanais/ranking/backend/staticfiles'
 
 # Media files
 MEDIA_URL = '/media/'
-
-# Configuração de media para desenvolvimento local e produção
+# Use a local media folder in development; keep production path otherwise
 if DEBUG:
-    # Para desenvolvimento local
     MEDIA_ROOT = BASE_DIR / 'media'
 else:
-    # Para produção no PythonAnywhere
     MEDIA_ROOT = '/home/japcanais/ranking/backend/media'
 
 # Default primary key field type

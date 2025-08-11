@@ -1,12 +1,11 @@
 import React from 'react';
 import styles from './Bar.module.scss';
-import { buildImageUrl, handleImageError } from '../../utils/imageUtils';
 
 interface BarProps {
   primeiroNome: string;
   segundoNome: string;
   alcool: number;
-  foto: string | null;
+  foto: string;
   numero: number;
   corNumero: string;
 }
@@ -19,8 +18,16 @@ const Bar: React.FC<BarProps> = ({
   numero,
   corNumero,
 }) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = "https://via.placeholder.com/190";
+  };
 
-  const imageSrc = buildImageUrl(foto);
+  const getImageSrc = () => {
+    if (!foto || foto === null || foto === 'null') {
+      return "https://via.placeholder.com/190";
+    }
+    return foto;
+  };
 
   return (
     <div className={styles.BarContainer}>
@@ -36,7 +43,7 @@ const Bar: React.FC<BarProps> = ({
 
             <div className={styles.photoContainer}>
                 <img 
-                  src={imageSrc} 
+                  src={getImageSrc()} 
                   alt={`${primeiroNome} ${segundoNome}`} 
                   className={styles.photo}
                   onError={handleImageError}

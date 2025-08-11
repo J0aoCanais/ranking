@@ -119,10 +119,3 @@ export const request = async (
         return { success: false, error: error.response?.data || "Unknown error" };
     }
 };
-
-/**
- * Função específica para testar imagens
- */
-export const testImages = async () => {
-    return await request('GET', '/person/test-images/');
-};

@@ -11,11 +11,10 @@ class PersonSerializer(serializers.ModelSerializer):
         read_only_fields = ['data_adicionado']
 
     def get_foto(self, obj):
-        """
-        Retorna o URL relativo da foto, se existir.
-        O frontend será responsável por construir o URL completo.
-        """
-        if obj.foto and hasattr(obj.foto, 'url'):
+        if obj.foto:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.foto.url)
             return obj.foto.url
         return None
 

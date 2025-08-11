@@ -8,7 +8,7 @@ interface Person {
   primeiro_nome: string;
   ultimo_nome: string;
   alcool: number;
-  foto?: string | null;
+  foto?: string;
 }
 
 interface RankingProps {
@@ -42,11 +42,10 @@ const Ranking: React.FC<RankingProps> = ({ persons }) => {
         {topThree.map((person, index) => (
           <ShowPerson 
             key={person.id}
-            id={person.id}
             primeiroNome={person.primeiro_nome}
             segundoNome={person.ultimo_nome}
             alcool={person.alcool}
-            foto={person.foto || null}
+            foto={person.foto || ""}
             numero={index + 1}
             corNumero={cores[index]}
             nomesVertical={true}
@@ -61,7 +60,7 @@ const Ranking: React.FC<RankingProps> = ({ persons }) => {
             primeiroNome={person.primeiro_nome}
             segundoNome={person.ultimo_nome}
             alcool={person.alcool}
-            foto={person.foto || null}
+            foto={person.foto || ""}
             numero={index + 4}
             corNumero={cores[index + 3]}
           />

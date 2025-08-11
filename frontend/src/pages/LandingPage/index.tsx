@@ -6,7 +6,6 @@ import instructions from '../../assets/instructions.png';
 import elo from '../../assets/elo1.png';
 import Ranking from '../../components/Ranking/Ranking';
 import ShowPerson from '../../components/ShowPerson/ShowPerson';
-import { buildPhotoUrl } from '../../utils/imageUtils';
 import { request } from '../../api';
 
 interface Person {
@@ -28,7 +27,17 @@ const LandingPage = () => {
   const cycleTimeoutRef = useRef<number | null>(null);
   const instructionsTimeoutRef = useRef<number | null>(null);
 
-  // Sem inline helper; usamos buildPhotoUrl que respeita VITE_BACKEND_URL
+  // Função para construir URL da foto
+  const getPhotoUrl = (foto?: string) => {
+    if (!foto) return "https://via.placeholder.com/190";
+    if (foto.startsWith('http')) return foto;
+    
+    const BASE_URL = 'https://japcanais.pythonanywhere.com';
+    const baseUrl = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
+    const photoPath = foto.startsWith('/') ? foto : `/${foto}`;
+    
+    return `${baseUrl}/media${photoPath}`;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,9 +60,7 @@ const LandingPage = () => {
           
           // Verificar se é uma nova pessoa (diferente ID da anterior)
           if (newLatestPerson && newLatestPerson.id !== lastPersonId) {
-            // Normalizar URL da foto já aqui para evitar recomputes
-            const normalized = { ...newLatestPerson, foto: buildPhotoUrl(newLatestPerson.foto) } as Person;
-            setLatestPerson(normalized);
+            setLatestPerson(newLatestPerson);
             setLastPersonId(newLatestPerson.id);
             setShowLatestPerson(true);
             setShowInstructions(false); // Para as instruções quando uma nova pessoa aparece
@@ -149,13 +156,13 @@ const LandingPage = () => {
       <div className={styles.rankingContainer }>
         {loading ? (
           <div className={styles.loading}>Carregando...</div>
-    ) : showLatestPerson && latestPerson ? (
+        ) : showLatestPerson && latestPerson ? (
           <div className={styles.transform}>
             <ShowPerson 
               primeiroNome={latestPerson.primeiro_nome}
               segundoNome={latestPerson.ultimo_nome}
               alcool={latestPerson.alcool}
-      foto={latestPerson.foto || ''}
+              foto={getPhotoUrl(latestPerson.foto)}
               numero={0} // Sem número
               corNumero="transparent" // Sem cor
               nomesVertical={false}

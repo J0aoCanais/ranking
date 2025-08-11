@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Ranking.module.scss';
 import ShowPerson from '../ShowPerson/ShowPerson';
 import Bar from '../Bar/Bar';
-import { buildPhotoUrl } from '../../utils/imageUtils';
 
 interface Person {
   id: number;
@@ -32,10 +31,10 @@ const Ranking: React.FC<RankingProps> = ({ persons }) => {
   ];
 
   // Pegar as primeiras 3 pessoas para ShowPerson
-  const topThree = persons.slice(0, 3).map(p => ({ ...p, foto: buildPhotoUrl(p.foto) }));
+  const topThree = persons.slice(0, 3);
   
   // Pegar as próximas 4 pessoas para Bar
-  const nextFour = persons.slice(3, 7).map(p => ({ ...p, foto: buildPhotoUrl(p.foto) }));
+  const nextFour = persons.slice(3, 7);
 
   return (
     <div className={styles.rankingContainer}>

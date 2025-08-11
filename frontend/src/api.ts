@@ -95,8 +95,12 @@ export const request = async (
 
     const headers: Record<string, string> = {
         Accept: "application/json",
-        "Content-Type": isMultipart ? "multipart/form-data" : "application/json",
     };
+
+    // Don't set Content-Type for multipart, let axios set it with boundary
+    if (!isMultipart) {
+        headers["Content-Type"] = "application/json";
+    }
 
     if (accessToken) {
         headers.Authorization = `Bearer ${accessToken}`;

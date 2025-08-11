@@ -13,9 +13,10 @@ interface Person {
 
 interface RankingProps {
   persons: Person[];
+  getPhotoUrl: (photo?: string) => string;
 }
 
-const Ranking: React.FC<RankingProps> = ({ persons }) => {
+const Ranking: React.FC<RankingProps> = ({ persons, getPhotoUrl }) => {
   // Cores para os números
   const cores = [
     "#FFD700", // Ouro para o 1º
@@ -45,7 +46,7 @@ const Ranking: React.FC<RankingProps> = ({ persons }) => {
             primeiroNome={person.primeiro_nome}
             segundoNome={person.ultimo_nome}
             alcool={person.alcool}
-            foto={person.foto || ""}
+            foto={getPhotoUrl(person.foto)}
             numero={index + 1}
             corNumero={cores[index]}
             nomesVertical={true}
@@ -60,7 +61,7 @@ const Ranking: React.FC<RankingProps> = ({ persons }) => {
             primeiroNome={person.primeiro_nome}
             segundoNome={person.ultimo_nome}
             alcool={person.alcool}
-            foto={person.foto || ""}
+            foto={getPhotoUrl(person.foto)}
             numero={index + 4}
             corNumero={cores[index + 3]}
           />

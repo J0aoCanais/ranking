@@ -156,24 +156,32 @@ const LandingPage = () => {
       <div className={styles.rankingContainer }>
         {loading ? (
           <div className={styles.loading}>Carregando...</div>
-        ) : showLatestPerson && latestPerson ? (
-          <div className={styles.transform}>
-            <ShowPerson 
-              primeiroNome={latestPerson.primeiro_nome}
-              segundoNome={latestPerson.ultimo_nome}
-              alcool={latestPerson.alcool}
-              foto={getPhotoUrl(latestPerson.foto)}
-              numero={0} // Sem número
-              corNumero="transparent" // Sem cor
-              nomesVertical={false}
-            />
-          </div>
-        ) : showInstructions ? (
-          <div className={styles.instructionsContainer}>
-            <img src={instructions} alt="Instruções" className={styles.instructions} />
-          </div>
         ) : (
-          <Ranking persons={persons} />
+          <div className={styles.content}>
+            {!showLatestPerson && !showInstructions && (
+              <Ranking persons={persons} getPhotoUrl={getPhotoUrl} />
+            )}
+
+            {showLatestPerson && latestPerson && (
+              <div className={styles.latestPersonContainer}>
+                <ShowPerson
+                  primeiroNome={latestPerson.primeiro_nome}
+                  segundoNome={latestPerson.ultimo_nome}
+                  alcool={latestPerson.alcool}
+                  foto={getPhotoUrl(latestPerson.foto)}
+                  numero={0}
+                  corNumero="white"
+                  nomesVertical={false}
+                />
+              </div>
+            )}
+
+            {showInstructions && (
+              <div className={styles.instructionsContainer}>
+                <img src={instructions} alt="Instruções" className={styles.instructions} />
+              </div>
+            )}
+          </div>
         )}
       </div>
 

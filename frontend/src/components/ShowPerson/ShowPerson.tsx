@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ShowPerson.module.scss';
-import { getImageSrc } from '../../utils/imageUtils';
+import { buildImageUrl, handleImageError } from '../../utils/imageUtils';
 
 interface ShowPersonProps {
   id?: number;
@@ -23,11 +23,8 @@ const ShowPerson: React.FC<ShowPersonProps> = ({
   corNumero,
   nomesVertical
 }) => {
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = "https://via.placeholder.com/190";
-  };
 
-  const imageSrc = getImageSrc(foto, id);
+  const imageSrc = buildImageUrl(foto);
 
   return (
     <div className={styles.showPersonContainer}>

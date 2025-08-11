@@ -6,8 +6,6 @@ urlpatterns = [
     path('persons/create/', create_person, name='create_person'),
     path('persons/ranking/', get_persons_by_alcohol, name='ranking'),
     path('persons/latest/', get_latest_person, name='get_latest_person'),
-    path('persons/<int:person_id>/image/', serve_person_image, name='serve_person_image'),
-    path('test-images/', test_images, name='test_images'),
     
     # Manter URLs antigas para compatibilidade
     path('create/', create_person, name='create_person_old'),

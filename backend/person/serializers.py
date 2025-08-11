@@ -11,16 +11,11 @@ class PersonSerializer(serializers.ModelSerializer):
         read_only_fields = ['data_adicionado']
 
     def get_foto(self, obj):
-        if obj.foto:
-            request = self.context.get('request')
-            if request:
-                # Para PythonAnywhere, garantir que a URL é absoluta e pública
-                base_url = request.build_absolute_uri('/').rstrip('/')
-                # Se estamos no PythonAnywhere, usar o domínio público
-                if 'pythonanywhere.com' in base_url:
-                    return f"{base_url}{obj.foto.url}"
-                else:
-                    return request.build_absolute_uri(obj.foto.url)
+        """
+        Retorna o URL relativo da foto, se existir.
+        O frontend será responsável por construir o URL completo.
+        """
+        if obj.foto and hasattr(obj.foto, 'url'):
             return obj.foto.url
         return None
 

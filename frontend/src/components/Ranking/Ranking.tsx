@@ -61,7 +61,7 @@ const Ranking: React.FC<RankingProps> = ({ persons }) => {
             primeiroNome={person.primeiro_nome}
             segundoNome={person.ultimo_nome}
             alcool={person.alcool}
-            foto={person.foto || ""}
+            foto={person.foto || null}
             numero={index + 4}
             corNumero={cores[index + 3]}
           />

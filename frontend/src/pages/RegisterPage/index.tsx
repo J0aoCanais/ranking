@@ -46,7 +46,7 @@ const RegisterPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!formData.primeiroNome || !formData.ultimoNome || !formData.alcool) {
       setSubmitMessage('Por favor, preencha todos os campos obrigatórios.');
       return;
@@ -62,16 +62,15 @@ const RegisterPage: React.FC = () => {
     setSubmitMessage('');
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('primeiro_nome', formData.primeiroNome);
-      formDataToSend.append('ultimo_nome', formData.ultimoNome);
-      formDataToSend.append('alcool', alcoholValue.toString());
-      if (formData.foto) {
-        formDataToSend.append('foto', formData.foto);
-      }
+      const submitData = {
+        primeiro_nome: formData.primeiroNome,
+        ultimo_nome: formData.ultimoNome,
+        alcool: alcoholValue,
+        foto: formData.foto
+      };
 
-      const response = await request('POST', '/person/create/', formDataToSend, true);
-
+      const response = await request('POST', '/person/create/', submitData, true);
+      
       if (response.success) {
         setSubmitMessage('Pessoa adicionada com sucesso!');
         // Reset form

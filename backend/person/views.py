@@ -19,6 +19,9 @@ def create_person(request):
     serializer = PersonSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         person = serializer.save()
+        if 'foto' in request.FILES:
+            person.foto = request.FILES['foto']
+            person.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -31,9 +31,12 @@ const mockData = {
 
 const objectToFormData = (obj: Record<string, any>) => {
     const formData = new FormData();
-    for (const key in obj) {
-        formData.append(key, obj[key]);
-    }
+    Object.entries(obj).forEach(([key, value]) => {
+        // Skip null, undefined, or empty string values
+        if (value === null || value === undefined || value === '') return;
+        // Append the value (Files will be handled correctly by FormData)
+        formData.append(key, value);
+    });
     return formData;
 };
 

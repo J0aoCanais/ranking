@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Ranking.module.scss';
 import ShowPerson from '../ShowPerson/ShowPerson';
 import Bar from '../Bar/Bar';
+import { buildPhotoUrl } from '../../utils/imageUtils';
 
 interface Person {
   id: number;
@@ -13,10 +14,9 @@ interface Person {
 
 interface RankingProps {
   persons: Person[];
-  getPhotoUrl: (photo?: string) => string;
 }
 
-const Ranking: React.FC<RankingProps> = ({ persons, getPhotoUrl }) => {
+const Ranking: React.FC<RankingProps> = ({ persons }) => {
   // Cores para os números
   const cores = [
     "#FFD700", // Ouro para o 1º
@@ -32,10 +32,10 @@ const Ranking: React.FC<RankingProps> = ({ persons, getPhotoUrl }) => {
   ];
 
   // Pegar as primeiras 3 pessoas para ShowPerson
-  const topThree = persons.slice(0, 3);
+  const topThree = persons.slice(0, 3).map(p => ({ ...p, foto: buildPhotoUrl(p.foto) }));
   
   // Pegar as próximas 4 pessoas para Bar
-  const nextFour = persons.slice(3, 7);
+  const nextFour = persons.slice(3, 7).map(p => ({ ...p, foto: buildPhotoUrl(p.foto) }));
 
   return (
     <div className={styles.rankingContainer}>
@@ -46,7 +46,7 @@ const Ranking: React.FC<RankingProps> = ({ persons, getPhotoUrl }) => {
             primeiroNome={person.primeiro_nome}
             segundoNome={person.ultimo_nome}
             alcool={person.alcool}
-            foto={getPhotoUrl(person.foto)}
+            foto={person.foto || ""}
             numero={index + 1}
             corNumero={cores[index]}
             nomesVertical={true}
@@ -61,7 +61,7 @@ const Ranking: React.FC<RankingProps> = ({ persons, getPhotoUrl }) => {
             primeiroNome={person.primeiro_nome}
             segundoNome={person.ultimo_nome}
             alcool={person.alcool}
-            foto={getPhotoUrl(person.foto)}
+            foto={person.foto || ""}
             numero={index + 4}
             corNumero={cores[index + 3]}
           />

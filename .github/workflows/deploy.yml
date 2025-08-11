@@ -45,16 +45,35 @@ jobs:
         run: |
           if [ -f .env.production ]; then
             cp .env.production .env
+            echo "✅ Environment variables loaded from .env.production"
+            cat .env
+          else
+            echo "⚠️ No .env.production file found"
           fi
         
       - name: Build
         run: npm run build
+        env:
+          VITE_BACKEND_URL: https://japcanais.pythonanywhere.com/
         
       - name: Copy CNAME to dist
         run: |
           if [ -f ../CNAME ]; then
             cp ../CNAME dist/CNAME
+            echo "✅ CNAME copied to dist/"
           fi
+        
+      - name: Copy additional files to dist
+        run: |
+          # Assegurar que os arquivos de redirecionamento estão presentes
+          if [ ! -f dist/404.html ]; then
+            echo "⚠️ 404.html not found in dist, copying from public"
+            cp public/404.html dist/404.html 2>/dev/null || echo "No 404.html in public"
+          fi
+          
+          # Verificar se os arquivos essenciais estão presentes
+          echo "📁 Files in dist:"
+          ls -la dist/
         
       - name: Setup Pages
         uses: actions/configure-pages@v4

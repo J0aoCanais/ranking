@@ -22,6 +22,8 @@ export default defineConfig({
         manualChunks: undefined,
       },
     },
+    // Simplificado - sem Terser por enquanto
+    minify: 'esbuild',
   },
   css: {
     preprocessorOptions: {

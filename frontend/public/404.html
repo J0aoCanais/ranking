@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festas VDL</title>
+    <script>
+        // GitHub Pages SPA router fix
+        // Redireciona para index.html com o path como query parameter
+        const path = window.location.pathname.slice(1);
+        const query = window.location.search;
+        const hash = window.location.hash;
+        
+        window.location.replace(
+            window.location.origin + 
+            '/?path=' + encodeURIComponent(path) + 
+            (query ? '&' + query.slice(1) : '') + 
+            hash
+        );
+    </script>
+</head>
+<body>
+    <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h2>Redirecionando...</h2>
+        <p>Se não fores redirecionado automaticamente, <a href="/">clica aqui</a>.</p>
+    </div>
+</body>
+</html>

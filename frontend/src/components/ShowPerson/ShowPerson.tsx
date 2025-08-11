@@ -1,17 +1,20 @@
 import React from 'react';
 import styles from './ShowPerson.module.scss';
+import { getImageSrc } from '../../utils/imageUtils';
 
 interface ShowPersonProps {
+  id?: number;
   primeiroNome: string;
   segundoNome: string;
   alcool: number;
-  foto: string;
+  foto: string | null;
   numero: number;
   corNumero: string;
   nomesVertical: boolean; 
 }
 
 const ShowPerson: React.FC<ShowPersonProps> = ({
+  id,
   primeiroNome,
   segundoNome,
   alcool,
@@ -24,12 +27,7 @@ const ShowPerson: React.FC<ShowPersonProps> = ({
     e.currentTarget.src = "https://via.placeholder.com/190";
   };
 
-  const getImageSrc = () => {
-    if (!foto || foto === null || foto === 'null') {
-      return "https://via.placeholder.com/190";
-    }
-    return foto;
-  };
+  const imageSrc = getImageSrc(foto, id);
 
   return (
     <div className={styles.showPersonContainer}>
@@ -39,7 +37,7 @@ const ShowPerson: React.FC<ShowPersonProps> = ({
       
       <div className={styles.photoContainer}>
         <img 
-          src={getImageSrc()} 
+          src={imageSrc} 
           alt={`${primeiroNome} ${segundoNome}`} 
           className={styles.photo}
           onError={handleImageError}

@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-jp2k8@m9x$wv#4h6n*z!8@5b&k3q7r9t2w6y$e8f*p1m@3x5c9v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # Temporariamente para debug
 
-ALLOWED_HOSTS = ['japcanais.pythonanywhere.com', 'localhost', '127.0.0.1', 'festasvdl.com', 'www.festasvdl.com']
+ALLOWED_HOSTS = ['japcanais.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -135,12 +135,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/'
+STATIC_ROOT = '/home/japcanais/ranking/backend/staticfiles'
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/japcanais/ranking/backend/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

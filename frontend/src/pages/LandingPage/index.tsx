@@ -13,7 +13,7 @@ interface Person {
   primeiro_nome: string;
   ultimo_nome: string;
   alcool: number;
-  foto?: string;
+  foto?: string | null;
 }
 
 const LandingPage = () => {
@@ -26,18 +26,6 @@ const LandingPage = () => {
   
   const cycleTimeoutRef = useRef<number | null>(null);
   const instructionsTimeoutRef = useRef<number | null>(null);
-
-  // Função para construir URL da foto
-  const getPhotoUrl = (foto?: string) => {
-    if (!foto) return "https://via.placeholder.com/190";
-    if (foto.startsWith('http')) return foto;
-    
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://japcanais.pythonanywhere.com';
-    const baseUrl = backendUrl.endsWith('/') ? backendUrl.slice(0, -1) : backendUrl;
-    const photoPath = foto.startsWith('/') ? foto.substring(1) : foto;
-    
-    return `${baseUrl}/media/${photoPath}`;
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -159,10 +147,11 @@ const LandingPage = () => {
         ) : showLatestPerson && latestPerson ? (
           <div className={styles.transform}>
             <ShowPerson 
+              id={latestPerson.id}
               primeiroNome={latestPerson.primeiro_nome}
               segundoNome={latestPerson.ultimo_nome}
               alcool={latestPerson.alcool}
-              foto={getPhotoUrl(latestPerson.foto)}
+              foto={latestPerson.foto || null}
               numero={0} // Sem número
               corNumero="transparent" // Sem cor
               nomesVertical={false}

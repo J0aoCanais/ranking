@@ -140,7 +140,14 @@ STATIC_ROOT = '/home/japcanais/ranking/backend/staticfiles'
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/japcanais/ranking/backend/media'
+
+# Configuração de media para desenvolvimento local e produção
+if DEBUG:
+    # Para desenvolvimento local
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    # Para produção no PythonAnywhere
+    MEDIA_ROOT = '/home/japcanais/ranking/backend/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -31,9 +31,26 @@ const mockData = {
 
 const objectToFormData = (obj: Record<string, any>) => {
     const formData = new FormData();
-    for (const key in obj) {
-        formData.append(key, obj[key]);
-    }
+    Object.entries(obj).forEach(([key, value]) => {
+        if (value === null || value === undefined) return;
+        // If it's a File or Blob, append directly
+        if (value instanceof File || value instanceof Blob) {
+            formData.append(key, value);
+            return;
+        }
+        // Primitive types
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+            formData.append(key, String(value));
+            return;
+        }
+        // Arrays: append each value
+        if (Array.isArray(value)) {
+            value.forEach((v) => formData.append(key, v instanceof File || v instanceof Blob ? v : String(v)));
+            return;
+        }
+        // Objects: JSON stringify
+        formData.append(key, JSON.stringify(value));
+    });
     return formData;
 };
 

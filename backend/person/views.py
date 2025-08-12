@@ -12,13 +12,13 @@ from .serializers import *
 from .utils import *
 
 
-
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def create_person(request):
-    serializer = PersonCreateSerializer(data=request.data, context={'request': request})
+    print("FILES:", request.FILES)  # debug
+    serializer = PersonSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
-        person = serializer.save()
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

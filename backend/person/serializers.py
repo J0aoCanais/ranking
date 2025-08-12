@@ -6,15 +6,16 @@ class PersonCreateSerializer(serializers.ModelSerializer):
         model = Person
         fields = ['primeiro_nome', 'ultimo_nome', 'alcool', 'foto']
 
-class PersonDetailSerializer(serializers.ModelSerializer):
-    foto = serializers.SerializerMethodField()
+class PersonSerializer(serializers.ModelSerializer):
+    foto_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Person
-        fields = ['id', 'foto', 'primeiro_nome', 'ultimo_nome', 'alcool', 'data_adicionado']
+        fields = ['id', 'foto', 'foto_url', 'primeiro_nome', 'ultimo_nome', 'alcool', 'data_adicionado']
+        read_only_fields = ['data_adicionado']
 
-    def get_foto(self, obj):
-        request = self.context.get('request')
-        if obj.foto and request:
+    def get_foto_url(self, obj):
+        if obj.foto:
+            request = self.context.get('request')
             return request.build_absolute_uri(obj.foto.url)
         return None

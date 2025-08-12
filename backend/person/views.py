@@ -15,7 +15,7 @@ from .utils import *
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def create_person(request):
-    print("FILES:", request.FILES)  # debug
+    print("FILES:", request.FILES)  
     serializer = PersonSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         serializer.save()
@@ -29,7 +29,7 @@ def get_persons_by_alcohol(request):
     Obtém todas as pessoas ordenadas por nível de álcool (decrescente para ranking)
     """
     persons = Person.objects.all().order_by('-alcool')
-    serializer = PersonDetailSerializer(persons, many=True, context={'request': request})
+    serializer = PersonSerializer(persons, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -40,11 +40,27 @@ def get_latest_person(request):
     """
     try:
         latest_person = Person.objects.latest('data_adicionado')
-        serializer = PersonDetailSerializer(latest_person, context={'request': request})
+        serializer = PersonSerializer(latest_person, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Person.DoesNotExist:
         return Response(
             {"message": "Nenhuma pessoa encontrada"}, 
             status=status.HTTP_404_NOT_FOUND
         )
+
+
+@api_view(['POST'])
+def export_and_delete_persons(request):
+    """Export all persons' names to a Google Sheet and delete them from DB.
+    Body: { spreadsheet: '<sheet id or full URL>', sheet_name?: 'Sheet1' }
+    """
+    spreadsheet = request.data.get('spreadsheet')
+    sheet_name = request.data.get('sheet_name', 'Sheet1')
+    if not spreadsheet:
+        return Response({'error': 'spreadsheet is required'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        count = export_person_names_to_sheet_and_delete(spreadsheet, sheet_name)
+        return Response({'exported': count}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

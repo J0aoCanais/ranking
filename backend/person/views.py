@@ -10,6 +10,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
 from .serializers import *
 from .utils import *
+from googleapiclient.errors import HttpError
 
 
 @api_view(['POST'])
@@ -54,13 +55,9 @@ def export_and_delete_persons(request):
     """Export all persons' names to a Google Sheet and delete them from DB.
     Body: { spreadsheet: '<sheet id or full URL>', sheet_name?: 'Sheet1' }
     """
-    spreadsheet = request.data.get('spreadsheet')
-    sheet_name = request.data.get('sheet_name', 'Sheet1')
-    if not spreadsheet:
-        return Response({'error': 'spreadsheet is required'}, status=status.HTTP_400_BAD_REQUEST)
     try:
-        count = export_person_names_to_sheet_and_delete(spreadsheet, sheet_name)
-        return Response({'exported': count}, status=status.HTTP_200_OK)
+        count, url = export_persons_to_local_excel_and_delete()
+        return Response({'exported': count, 'url': url}, status=status.HTTP_200_OK)
     except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error': 'Server error', 'detail': str(e)}, status=500)
 

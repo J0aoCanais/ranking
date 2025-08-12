@@ -140,11 +140,7 @@ STATIC_ROOT = '/home/japcanais/ranking/backend/staticfiles'
 
 # Media files
 MEDIA_URL = '/media/'
-# Use local media folder during development; keep production path otherwise
-if DEBUG:
-    MEDIA_ROOT = BASE_DIR / 'media'
-else:
-    MEDIA_ROOT = '/home/japcanais/ranking/backend/media'
+MEDIA_ROOT = '/home/japcanais/ranking/backend/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field 

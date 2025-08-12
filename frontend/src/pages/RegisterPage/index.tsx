@@ -62,15 +62,17 @@ const RegisterPage: React.FC = () => {
     setSubmitMessage('');
 
     try {
-      const submitData = {
-        primeiro_nome: formData.primeiroNome,
-        ultimo_nome: formData.ultimoNome,
-        alcool: alcoholValue,
-        foto: formData.foto
-      };
+      const formDataToSend = new FormData();
+      formDataToSend.append('primeiro_nome', formData.primeiroNome);
+      formDataToSend.append('ultimo_nome', formData.ultimoNome);
+      formDataToSend.append('alcool', alcoholValue.toString());
 
-      const response = await request('POST', '/person/create/', submitData, true);
-      
+      if (formData.foto) {
+        formDataToSend.append('foto', formData.foto);
+      }
+
+      const response = await request('POST', '/person/create/', formDataToSend, true);
+
       if (response.success) {
         setSubmitMessage('Pessoa adicionada com sucesso!');
         // Reset form

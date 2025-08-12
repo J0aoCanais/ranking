@@ -31,26 +31,9 @@ const mockData = {
 
 const objectToFormData = (obj: Record<string, any>) => {
     const formData = new FormData();
-    Object.entries(obj).forEach(([key, value]) => {
-        if (value === null || value === undefined) return;
-        // If it's a File or Blob, append directly
-        if (value instanceof File || value instanceof Blob) {
-            formData.append(key, value);
-            return;
-        }
-        // Primitive types
-        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-            formData.append(key, String(value));
-            return;
-        }
-        // Arrays: append each value
-        if (Array.isArray(value)) {
-            value.forEach((v) => formData.append(key, v instanceof File || v instanceof Blob ? v : String(v)));
-            return;
-        }
-        // Objects: JSON stringify
-        formData.append(key, JSON.stringify(value));
-    });
+    for (const key in obj) {
+        formData.append(key, obj[key]);
+    }
     return formData;
 };
 
@@ -124,11 +107,14 @@ export const request = async (
     }
 
     const url = `${BASE_URL}${endpoint}`;
+    const payload = isMultipart
+        ? (body instanceof FormData ? body : objectToFormData(body || {}))
+        : (body ? JSON.stringify(body) : undefined);
     const config = {
         method,
         url,
         headers,
-        data: body ? (isMultipart ? objectToFormData(body) : JSON.stringify(body)) : undefined,
+        data: payload,
     };
 
     try {

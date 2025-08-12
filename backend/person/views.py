@@ -12,13 +12,11 @@ from .serializers import *
 from .utils import *
 
 
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def create_person(request):
-    """
-    Cria uma nova pessoa
-    """
-    serializer = PersonSerializer(data=request.data, context={'request': request})
+    serializer = PersonCreateSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         person = serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -31,7 +29,7 @@ def get_persons_by_alcohol(request):
     Obtém todas as pessoas ordenadas por nível de álcool (decrescente para ranking)
     """
     persons = Person.objects.all().order_by('-alcool')
-    serializer = PersonSerializer(persons, many=True, context={'request': request})
+    serializer = PersonDetailSerializer(persons, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -42,7 +40,7 @@ def get_latest_person(request):
     """
     try:
         latest_person = Person.objects.latest('data_adicionado')
-        serializer = PersonSerializer(latest_person, context={'request': request})
+        serializer = PersonDetailSerializer(latest_person, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Person.DoesNotExist:
         return Response(

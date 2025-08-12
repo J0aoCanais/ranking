@@ -1,10 +1,11 @@
 from django.db import transaction
 from django.db.models import F
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import *
 from .serializers import *
@@ -12,10 +13,12 @@ from .utils import *
 
 
 @api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
 def create_person(request):
     """
     Cria uma nova pessoa
     """
+    # Ensure both data and files are passed to serializer
     serializer = PersonSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         person = serializer.save()

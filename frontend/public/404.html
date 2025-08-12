@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Festas VDL</title>
     <script>
-        // Simple SPA redirect - preserve the path and redirect to index.html
-        sessionStorage.redirect = location.href;
+        // GitHub Pages SPA router fix
+        // Redireciona para index.html com o path como query parameter
+        const path = window.location.pathname.slice(1);
+        const query = window.location.search;
+        const hash = window.location.hash;
+        
+        window.location.replace(
+            window.location.origin + 
+            '/?path=' + encodeURIComponent(path) + 
+            (query ? '&' + query.slice(1) : '') + 
+            hash
+        );
     </script>
-    <meta http-equiv="refresh" content="0;URL='/'">
 </head>
 <body>
     <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">

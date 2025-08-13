@@ -107,14 +107,11 @@ export const request = async (
     }
 
     const url = `${BASE_URL}${endpoint}`;
-    const payload = isMultipart
-        ? (body instanceof FormData ? body : objectToFormData(body || {}))
-        : (body ? JSON.stringify(body) : undefined);
     const config = {
         method,
         url,
         headers,
-        data: payload,
+        data: body ? (isMultipart ? objectToFormData(body) : JSON.stringify(body)) : undefined,
     };
 
     try {

@@ -6,11 +6,10 @@ from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 from .serializers import *
-from .utils import read_names_from_excel, write_names_to_excel, clear_excel
+from .utils import *
 
 
 @api_view(['POST'])
@@ -48,49 +47,4 @@ def get_latest_person(request):
             {"message": "Nenhuma pessoa encontrada"}, 
             status=status.HTTP_404_NOT_FOUND
         )
-
-
-@api_view(['GET'])
-def excel_names(request):
-    """
-    Lê nomes e números do Excel pessoas.xlsx e devolve uma lista.
-    Estrutura: [{"nome": str, "numero": float}]
-    """
-    data = read_names_from_excel()
-    payload = [{"nome": n, "numero": num} for n, num in data]
-    return Response(payload, status=status.HTTP_200_OK)
-
-
-@csrf_exempt
-@api_view(['POST'])
-def db_to_excel_and_clear_db(request):
-    """
-    Limpa a base de dados e escreve os nomes no Excel.
-    Assumimos que o Excel deverá conter o ranking atual (nome completo + alcool),
-    e depois apagamos a tabela Person.
-    """
-    persons = Person.objects.all().order_by('-alcool')
-    rows = []
-    for p in persons:
-        nome = f"{p.primeiro_nome} {p.ultimo_nome}".strip()
-        rows.append((nome, float(p.alcool)))
-
-    # Escreve no Excel
-    write_names_to_excel(rows)
-
-    # Limpa DB
-    with transaction.atomic():
-        Person.objects.all().delete()
-
-    return Response({"message": "Excel atualizado e base de dados limpa."}, status=status.HTTP_200_OK)
-
-
-@csrf_exempt
-@api_view(['POST'])
-def clear_excel_file(request):
-    """
-    Limpa o Excel pessoas.xlsx (mantendo cabeçalho).
-    """
-    clear_excel()
-    return Response({"message": "Excel limpo."}, status=status.HTTP_200_OK)
 

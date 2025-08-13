@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "https://japcanais.pythonanywhere.com";
 
 // Dados mock para quando não há backend disponível
 const mockData = {
@@ -112,6 +112,7 @@ export const request = async (
         url,
         headers,
         data: body ? (isMultipart ? objectToFormData(body) : JSON.stringify(body)) : undefined,
+        timeout: 5000,
     };
 
     try {
@@ -120,6 +121,16 @@ export const request = async (
 
     } catch (error: any) {
         console.error('API Error:', error);
+        // Fallback mínimo para manter o site funcional na LandingPage
+        const methodLower = method.toLowerCase();
+        if (endpoint === '/person/ranking/' && methodLower === 'get') {
+            const sortedPersons = [...mockData.persons].sort((a, b) => b.alcool - a.alcool);
+            return { success: true, data: sortedPersons };
+        }
+        if (endpoint === '/person/latest/' && methodLower === 'get') {
+            const latestPerson = mockData.persons[mockData.persons.length - 1];
+            return { success: true, data: latestPerson || null };
+        }
         return { success: false, error: error.response?.data || "Unknown error" };
     }
 };

@@ -6,6 +6,7 @@ from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 from .serializers import *
@@ -60,6 +61,7 @@ def excel_names(request):
     return Response(payload, status=status.HTTP_200_OK)
 
 
+@csrf_exempt
 @api_view(['POST'])
 def db_to_excel_and_clear_db(request):
     """
@@ -83,6 +85,7 @@ def db_to_excel_and_clear_db(request):
     return Response({"message": "Excel atualizado e base de dados limpa."}, status=status.HTTP_200_OK)
 
 
+@csrf_exempt
 @api_view(['POST'])
 def clear_excel_file(request):
     """

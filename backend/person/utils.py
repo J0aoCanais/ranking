@@ -2,12 +2,17 @@ import os
 from datetime import datetime
 from typing import Tuple
 from django.conf import settings
-from openpyxl import Workbook
-from openpyxl import load_workbook
+try:
+	from openpyxl import Workbook, load_workbook
+except Exception:  # ImportError or other
+	Workbook = None  # type: ignore
+	load_workbook = None  # type: ignore
 from .models import Person
 
 
 def export_persons_to_local_excel_and_delete() -> Tuple[int, str]:
+	if Workbook is None:
+		raise RuntimeError('openpyxl não está instalado. Instale openpyxl para exportar para Excel.')
 	"""Export all persons to a local XLSX file and delete them.
 	Returns: (count, relative_url)
 	The file is saved in MEDIA_ROOT/exports/persons-YYYYmmdd-HHMMSS.xlsx
@@ -51,6 +56,8 @@ def _excel_file_paths() -> Tuple[str, str]:
 
 
 def clear_local_excel_file() -> str:
+	if Workbook is None:
+		raise RuntimeError('openpyxl não está instalado. Instale openpyxl para usar o Excel.')
 	"""Create or reset pessoas.xlsx with only the header row. Returns the URL."""
 	file_path, url = _excel_file_paths()
 	os.makedirs(os.path.dirname(file_path), exist_ok=True)
@@ -68,6 +75,9 @@ def get_local_excel_info() -> dict:
 	exists = os.path.exists(file_path)
 	rows = 0
 	if exists:
+		if load_workbook is None:
+			# If we cannot read, still return exists=True but rows unknown (-1)
+			return {'exists': True, 'rows': -1, 'url': url}
 		wb = load_workbook(file_path)
 		ws = wb.active
 		# count rows excluding header if there is at least one row

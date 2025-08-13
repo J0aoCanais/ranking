@@ -9,8 +9,11 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import *
 from .serializers import *
-from .utils import *
-from googleapiclient.errors import HttpError
+from .utils import (
+    export_persons_to_local_excel_and_delete,
+    clear_local_excel_file,
+    get_local_excel_info,
+)
 
 
 @api_view(['POST'])
@@ -58,6 +61,26 @@ def export_and_delete_persons(request):
     try:
         count, url = export_persons_to_local_excel_and_delete()
         return Response({'exported': count, 'url': url}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': 'Server error', 'detail': str(e)}, status=500)
+
+
+@api_view(['POST'])
+def clear_excel(request):
+    """Clear the local pessoas.xlsx file (keep headers) and return its URL."""
+    try:
+        url = clear_local_excel_file()
+        return Response({'cleared': True, 'url': url}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': 'Server error', 'detail': str(e)}, status=500)
+
+
+@api_view(['GET'])
+def excel_info(request):
+    """Return info about the local Excel file: existence, rows count, URL."""
+    try:
+        info = get_local_excel_info()
+        return Response(info, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': 'Server error', 'detail': str(e)}, status=500)
 

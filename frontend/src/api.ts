@@ -120,6 +120,28 @@ export const request = async (
 
     } catch (error: any) {
         console.error('API Error:', error);
-        return { success: false, error: error.response?.data || "Unknown error" };
+        // Fallback para dados mock mesmo quando a URL do backend está definida,
+        // para evitar que o site "caia" se o backend estiver temporariamente indisponível
+        const methodLower = method.toLowerCase();
+        if (endpoint === '/person/ranking/' && methodLower === 'get') {
+            const sortedPersons = [...mockData.persons].sort((a, b) => b.alcool - a.alcool);
+            return { success: true, data: sortedPersons };
+        }
+        if (endpoint === '/person/latest/' && methodLower === 'get') {
+            const latestPerson = mockData.persons[mockData.persons.length - 1];
+            return { success: true, data: latestPerson || null };
+        }
+        if (endpoint === '/person/create/' && methodLower === 'post') {
+            const newPerson = {
+                id: mockData.persons.length + 1,
+                primeiro_nome: body?.primeiro_nome ?? 'Teste',
+                ultimo_nome: body?.ultimo_nome ?? 'Mock',
+                alcool: body?.alcool ?? 0,
+                foto: null,
+            };
+            mockData.persons.push(newPerson);
+            return { success: true, data: newPerson };
+        }
+        return { success: false, error: error.response?.data || 'Unknown error' };
     }
 };

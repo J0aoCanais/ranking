@@ -170,7 +170,7 @@ const LandingPage = () => {
           </div>
         ) : showInstructions ? (
           <div className={styles.instructionsContainer}>
-            <img src={instructions} alt="Instruções" className={styles.instructions} />
+            <img src={instructions} alt="Instruções" className={styles.instructions} /> 
           </div>
         ) : (
           <Ranking persons={persons} />

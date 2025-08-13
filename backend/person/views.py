@@ -20,6 +20,7 @@ def create_person(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    print("Validation Errors:", serializer.errors)  # Log errors
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -28,9 +29,13 @@ def get_persons_by_alcohol(request):
     """
     Obtém todas as pessoas ordenadas por nível de álcool (decrescente para ranking)
     """
-    persons = Person.objects.all().order_by('-alcool')
-    serializer = PersonSerializer(persons, many=True, context={'request': request})
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+        persons = Person.objects.all().order_by('-alcool')
+        serializer = PersonSerializer(persons, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        print("Error fetching persons by alcohol:", str(e))  # Log exception
+        return Response({"error": "Failed to fetch persons"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])

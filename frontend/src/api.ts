@@ -120,6 +120,7 @@ export const request = async (
 
     } catch (error: any) {
         console.error('API Error:', error);
-        return { success: false, error: error.response?.data || "Unknown error" };
+        const userFriendlyMessage = error.response?.data?.message || "An unexpected error occurred. Please try again later.";
+        return { success: false, error: userFriendlyMessage };
     }
 };

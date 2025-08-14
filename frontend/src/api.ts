@@ -29,10 +29,15 @@ const mockData = {
     ]
 };
 
-const objectToFormData = (obj: Record<string, any>) => {
+const objectToFormData = (obj: Record<string, any> | FormData) => {
+    if (obj instanceof FormData) {
+        return obj; // Preserve FormData if already provided
+    }
     const formData = new FormData();
     for (const key in obj) {
-        formData.append(key, obj[key]);
+        if (obj[key] !== undefined && obj[key] !== null) {
+            formData.append(key, obj[key]);
+        }
     }
     return formData;
 };

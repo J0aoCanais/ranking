@@ -14,7 +14,7 @@ interface Person {
   ultimo_nome: string;
   alcool: number;
   foto?: string;
-}
+}                                                 
 
 const LandingPage = () => {
   const [persons, setPersons] = useState<Person[]>([]);
@@ -31,7 +31,7 @@ const LandingPage = () => {
   const getPhotoUrl = (foto?: string) => {
     if (!foto) return "https://via.placeholder.com/190";
     if (foto.startsWith('http')) return foto;
-    
+                   
     const BASE_URL = 'https://japcanais.pythonanywhere.com';
     const baseUrl = BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL;
     const photoPath = foto.startsWith('/') ? foto : `/${foto}`;
@@ -39,7 +39,7 @@ const LandingPage = () => {
     return `${baseUrl}/media${photoPath}`;
   };
 
-  useEffect(() => {
+  useEffect(() => {                
     const fetchData = async () => {
       try {
         // Buscar todas as pessoas para o ranking
@@ -61,7 +61,7 @@ const LandingPage = () => {
           // Verificar se é uma nova pessoa (diferente ID da anterior)
           if (newLatestPerson && newLatestPerson.id !== lastPersonId) {
             setLatestPerson(newLatestPerson);
-            setLastPersonId(newLatestPerson.id);
+            setLastPersonId(newLatestPerson.id); 
             setShowLatestPerson(true);
             setShowInstructions(false); // Para as instruções quando uma nova pessoa aparece
             
@@ -78,7 +78,7 @@ const LandingPage = () => {
       } finally {
         setLoading(false);
       }
-    };
+    }; 
 
     fetchData();
     
@@ -113,7 +113,7 @@ const LandingPage = () => {
             // Voltar ao ranking e repetir o ciclo
             startCycle();
           }, 20000);
-        }, 60000);
+        }, 60000); 
       };
       
       startCycle();

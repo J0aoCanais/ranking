@@ -10,17 +10,26 @@
     <!-- GitHub Pages SPA router fix -->
     <script>
       (function() {
+        // Verificar se estamos numa página 404 e temos parâmetros de redirecionamento
         const urlParams = new URLSearchParams(window.location.search);
         const redirectPath = urlParams.get('path');
         
         if (redirectPath) {
           // Remove o parâmetro path da URL e navega para o path correto
-          const newUrl = window.location.origin + '/' + redirectPath + 
-            (window.location.search.replace(/[?&]path=[^&]*/, '').replace(/^&/, '?') || '') + 
-            window.location.hash;
+          const cleanSearch = window.location.search.replace(/[?&]path=[^&]*/, '').replace(/^&/, '?');
+          const newUrl = window.location.origin + '/' + redirectPath + cleanSearch + window.location.hash;
           
           history.replaceState(null, '', newUrl);
         }
+        
+        // Garantir que todas as rotas são tratadas pelo React Router
+        window.addEventListener('DOMContentLoaded', function() {
+          // Se não encontrou um elemento root, pode ser um problema de carregamento
+          const root = document.getElementById('root');
+          if (!root) {
+            console.error('Elemento root não encontrado!');
+          }
+        });
       })();
     </script>
   </head>

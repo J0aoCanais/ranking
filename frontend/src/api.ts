@@ -29,10 +29,17 @@ const mockData = {
     ]
 };
 
-const objectToFormData = (obj: Record<string, any>) => {
+const objectToFormData = (obj: Record<string, any> | FormData) => {
+    // If already FormData, return as-is
+    if (obj instanceof FormData) {
+        return obj;
+    }
     const formData = new FormData();
     for (const key in obj) {
-        formData.append(key, obj[key]);
+        const value = (obj as Record<string, any>)[key];
+        if (value !== undefined && value !== null) {
+            formData.append(key, value);
+        }
     }
     return formData;
 };
@@ -111,7 +118,12 @@ export const request = async (
         method,
         url,
         headers,
-        data: body ? (isMultipart ? objectToFormData(body) : JSON.stringify(body)) : undefined,
+        // Preserve FormData when provided; otherwise build it, or JSON stringify
+        data: body
+            ? (isMultipart
+                ? objectToFormData(body as any)
+                : JSON.stringify(body))
+            : undefined,
     };
 
     try {

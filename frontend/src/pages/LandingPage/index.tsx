@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './LandingPage.module.scss';
 import conceicao from '../../assets/conceicao-final.png';
 import camisola from '../../assets/camisola.png';
-import instructions from '../../assets/instructions (2).png';
+import instructions from '../../assets/instructions (2).png'; 
 import elo from '../../assets/elo1.png';
 import Ranking from '../../components/Ranking/Ranking';
 import ShowPerson from '../../components/ShowPerson/ShowPerson';
